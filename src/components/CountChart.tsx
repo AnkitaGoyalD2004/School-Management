@@ -73,7 +73,7 @@ function CountChart() {
             clockWise
             dataKey="uv"
           />
-          <Legend iconSize={10} layout="vertical" verticalAlign="middle" wrapperStyle={style} />
+          <Legend iconSizfe={10} layout="vertical" verticalAlign="middle" wrapperStyle={style} />
         </RadialBarChart>
       </ResponsiveContainer>
         <div className=""></div>
