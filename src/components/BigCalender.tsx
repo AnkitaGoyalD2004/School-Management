@@ -16,7 +16,6 @@ const localizer = momentLocalizer(moment);
   };
 
   return (
-    <div>
     <Calendar
       localizer={localizer}
       events={calendarEvents}
@@ -29,7 +28,6 @@ const localizer = momentLocalizer(moment);
       min={new Date(2025, 1, 0, 8, 0, 0)}
       max={new Date(2025, 1, 0, 17, 0, 0)}
     />
-    </div>
   );
 };
 
