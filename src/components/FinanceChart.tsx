@@ -2,14 +2,14 @@
 
 import Image from "next/image";
 import {
-    CartesianGrid,
-    Legend,
-    Line,
-    LineChart,
-    ResponsiveContainer,
-    Tooltip,
-    XAxis,
-    YAxis,
+  CartesianGrid,
+  Legend,
+  Line,
+  LineChart,
+  ResponsiveContainer,
+  Tooltip,
+  XAxis,
+  YAxis,
 } from "recharts";
 
 const data = [
@@ -109,7 +109,7 @@ const FinanceChart = () => {
             verticalAlign="top"
             wrapperStyle={{ paddingTop: "10px", paddingBottom: "30px" }}
           />
-          <Line
+          <Line 
             type="monotone"
             dataKey="income"
             stroke="#C3EBFA"

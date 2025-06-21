@@ -1,4 +1,4 @@
-import Announcements from "@/components/Announcements";
+import Announcements from "../../../components/Announcements";
 import BigCalendar from "../../../components/BigCalender";
 
 const TeacherPage = () => {
@@ -16,7 +16,7 @@ const TeacherPage = () => {
         <Announcements />
       </div>
     </div>
-  );
+  );  
 };
 
 export default TeacherPage;
