@@ -1,11 +1,10 @@
 // TEMPORARY DATA
-
 export let role = "admin";
 
 export const teachersData = [
   {
     id: 1,
-    teacherId: "1234567890",
+    teacherId: "12  34567890",
     name: "John Doe",
     email: "john@doe.com",
     photo:
