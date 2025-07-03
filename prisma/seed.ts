@@ -92,7 +92,6 @@ async function main() {
       },
     });
   }
-
   // PARENT
   for (let i = 1; i <= 25; i++) {
     await prisma.parent.create({

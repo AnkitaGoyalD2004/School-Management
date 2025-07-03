@@ -7,7 +7,7 @@ import Image from "next/image";
 import Link from "next/link";
 
 type Student = {
-  id: number;
+  id: number;  
   studentId: string;
   name: string;
   email?: string;
