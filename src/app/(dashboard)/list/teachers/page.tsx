@@ -76,8 +76,8 @@ const renderRow = (item: TeacherList) => (
       </div>
     </td>
     <td className="hidden md:table-cell">{item.username}</td>
-    <td className="hidden md:table-cell">{item.subjects.join(",")}</td>
-    <td className="hidden md:table-cell">{item.classes.join(",")}</td>
+    <td className="hidden md:table-cell">{item.subjects.map((subject) => subject.name).join(",")}</td>
+    <td className="hidden md:table-cell">{item.classes.map((classItem) => classItem.name).join(",")}</td>
     <td className="hidden md:table-cell">{item.phone}</td>
     <td className="hidden md:table-cell">{item.address}</td>
     <td>
@@ -85,7 +85,7 @@ const renderRow = (item: TeacherList) => (
         <Link href={`/list/teachers/${item.id}`}>
           <button className="w-7 h-7 flex items-center justify-center rounded-full bg-lamaSky">
             <Image src="/view.png" alt="" width={16} height={16} />
-          </button>
+          </button>      
         </Link>
         {role === "admin" && (
           // <button className="w-7 h-7 flex items-center justify-center rounded-full bg-lamaPurple">
@@ -98,12 +98,25 @@ const renderRow = (item: TeacherList) => (
   </tr>
 );
 
-const TeacherListPage = async () => {
+const TeacherListPage = async ({
+  searchParams,
+}: {
+  searchParams: {
+    [key: string]: string | undefined;
+  };
+}) => {
+
+  const {page , ...queryParams} = searchParams;
+
+  const p = page  ? parseInt(page) :  1;
+  
   const data = await prisma.teacher.findMany({
     include: {
       subjects: true,
       classes: true,
     },
+    take: 10,
+    skip: (p - 1) * 10,
   });
 
   return (
