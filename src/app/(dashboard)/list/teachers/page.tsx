@@ -110,12 +110,24 @@ const TeacherListPage = async ({
   const {page , ...queryParams} = searchParams;
 
   const p = page  ? parseInt(page) :  1 ;
+
+  //URL PARAMS CONDITION
+  if(queryParams){
+    for(const [key , value] of Object.entries(queryParams)){
+      if(value !== undefined){
+      switch(key){
+        case"classId":
+        {lessons: {some:{classId:parseInt(value!)}}}
+    }
+    }
+  }
+
   
   const [data , count] = await prisma.$transaction([
     prisma.teacher.findMany({
 
 where:{
- lessons:{
+ lessons:{ 
   some:{classId:parseInt(queryParams.classId!)}
  }
 },
