@@ -117,7 +117,7 @@ const TeacherListPage = async ({
       if(value !== undefined){
       switch(key){
         case"classId":
-        {lessons: {some:{classId:parseInt(value!)}}}
+        {lessons: {some:{classId:parseInt(value!)}}}}
     }
     }
   }
