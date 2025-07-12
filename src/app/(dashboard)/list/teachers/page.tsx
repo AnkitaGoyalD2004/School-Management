@@ -92,7 +92,7 @@ const renderRow = (item: TeacherList) => (
           // <button className="w-7 h-7 flex items-center justify-center rounded-full bg-lamaPurple">
           //   <Image src="/delete.png" alt="" width={16} height={16} />
           // </button>
-          <FormModal table="teacher" type="delete" id={item.id}/>
+          <FormModal table="teacher" type="delete" id={Number(item.id)}/>
         )}
       </div>
     </td>
@@ -111,38 +111,31 @@ const TeacherListPage = async ({
 
   const p = page  ? parseInt(page) :  1 ;
 
-  //URL PARAMS CONDITION
-  if(queryParams){
-    for(const [key , value] of Object.entries(queryParams)){
-      if(value !== undefined){
-      switch(key){
-        case"classId":
-        {lessons: {some:{classId:parseInt(value!)}}}}
-    }
-    }
+  // Build where clause conditionally
+  let whereClause: any = {};
+  
+  if (queryParams.classId) {
+    whereClause.lessons = {
+      some: {
+        classId: parseInt(queryParams.classId)
+      }
+    };
   }
 
   
   const [data , count] = await prisma.$transaction([
     prisma.teacher.findMany({
-
-where:{
- lessons:{ 
-  some:{classId:parseInt(queryParams.classId!)}
- }
-},
-    include: {
+      where: whereClause,
+      include: {
         subjects: true,
         classes: true,
       },
       take: ITEM_PER_PAGE,
       skip: (p - 1) * ITEM_PER_PAGE,
     }) ,
-    prisma.teacher.count({where:{
-      lessons:{
-       some:{classId:parseInt(queryParams.classId!)}
-      }
-     }}), 
+    prisma.teacher.count({
+      where: whereClause
+    }), 
  ])
 
   return (
