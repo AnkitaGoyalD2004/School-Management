@@ -129,7 +129,7 @@ const TeacherListPage = async ({
       include: {
         subjects: true,
         classes: true,
-      },
+      },    
       take: ITEM_PER_PAGE,
       skip: (p - 1) * ITEM_PER_PAGE,
     }) ,
