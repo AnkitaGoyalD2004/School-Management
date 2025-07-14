@@ -123,7 +123,7 @@ const TeacherListPage = async ({
   }
 
   
-  const [data , count] = await prisma.$transaction([
+  const [data  , count] = await prisma.$transaction([
     prisma.teacher.findMany({
       where: whereClause,
       include: {
