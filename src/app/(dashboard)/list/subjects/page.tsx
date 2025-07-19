@@ -1,10 +1,11 @@
 // import FormModal from "@/components/FormModal";
+import FormModal from "@/components/FormModal";
 import Pagination from "@/components/Pagination";
 import Table from "@/components/Table";
 import TableSearch from "@/components/TableSearch";
 import { subjectsData } from "@/lib/data";
 import Image from "next/image";
-
+const role = "admin";
 type Subject = {
   id: number;
   name: string;
@@ -37,12 +38,12 @@ const SubjectListPage = () => {
       <td className="hidden md:table-cell">{item.teachers.join(",")}</td>
       <td>
         <div className="flex items-center gap-2">
-          {/* {role === "admin" && (
+          {role === "admin" && (
             <>
               <FormModal table="subject" type="update" data={item} />
               <FormModal table="subject" type="delete" id={item.id} />
             </>
-          )} */}
+          )}
         </div>
       </td>
     </tr>
@@ -69,7 +70,7 @@ const SubjectListPage = () => {
       {/* LIST */}
       <Table columns={columns} renderRow={renderRow} data={subjectsData} />
       {/* PAGINATION */}
-      <Pagination />
+      <Pagination page={p} count={count} />
     </div>
   );
 };
