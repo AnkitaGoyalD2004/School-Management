@@ -77,10 +77,10 @@ const renderRow = (item: LessonList) => (
 
   const query: Prisma.LessonWhereInput = {};
 
-  if (queryParams) {
+    if (queryParams) {
     for (const [key, value] of Object.entries(queryParams)) {
       if (value !== undefined) {
-        switch (key) {
+        switch (key) { 
           case "classId":
             query.classId = parseInt(value);
             break;
