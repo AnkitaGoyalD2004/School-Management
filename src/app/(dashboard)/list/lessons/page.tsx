@@ -81,7 +81,7 @@ const renderRow = (item: LessonList) => (
     for (const [key, value] of Object.entries(queryParams)) {
       if (value !== undefined) {
         switch (key) { 
-          case "classId":
+          case "classId": 
             query.classId = parseInt(value);
             break;
           case "teacherId":
