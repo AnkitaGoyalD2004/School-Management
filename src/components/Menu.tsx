@@ -1,4 +1,4 @@
-import { role } from "@/lib/data";
+import { currentUser } from "@clerk/nextjs/server";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -16,19 +16,19 @@ const menuItems = [
         icon: "/teacher.png",
         label: "Teachers",
         href: "/list/teachers",
-        visible: ["admin", "teacher"],
+        visible: ["admin"],
       },
       {
         icon: "/student.png",
         label: "Students",
         href: "/list/students",
-        visible: ["admin", "teacher"],
+        visible: ["admin"],
       },
       {
         icon: "/parent.png",
         label: "Parents",
         href: "/list/parents",
-        visible: ["admin", "teacher"],
+        visible: ["admin"],
       },
       {
         icon: "/subject.png",
@@ -40,13 +40,13 @@ const menuItems = [
         icon: "/class.png",
         label: "Classes",
         href: "/list/classes",
-        visible: ["admin", "teacher"],
+        visible: ["admin",],
       },
       {
         icon: "/lesson.png",
         label: "Lessons",
         href: "/list/lessons",
-        visible: ["admin", "teacher"],
+        visible: ["admin",],
       },
       {
         icon: "/exam.png",
@@ -117,7 +117,9 @@ const menuItems = [
   },
 ];
 
-const Menu = () => {
+const Menu = async () => {
+  const user = await currentUser();
+  const role = user?.publicMetadata.role as string;
   return (
     <div className="mt-4 text-sm">
       {menuItems.map((i) => (
@@ -131,7 +133,7 @@ const Menu = () => {
                 <Link
                   href={item.href}
                   key={item.label}
-                  className="flex items-center justify-center lg:justify-start gap-4 text-gray-500 py-2 md:px-2 rounded-md hover:bg-skyLight"
+                  className="flex items-center justify-center lg:justify-start gap-4 text-gray-500 py-2 md:px-2 rounded-md hover:bg-lamaSkyLight"
                 >
                   <Image src={item.icon} alt="" width={20} height={20} />
                   <span className="hidden lg:block">{item.label}</span>
