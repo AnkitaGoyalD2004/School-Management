@@ -1,10 +1,11 @@
-// import FormModal from "@/components/FormModal";
+
 import FormModal from "@/components/FormModal";
 import Pagination from "@/components/Pagination";
 import Table from "@/components/Table";
 import TableSearch from "@/components/TableSearch";
 import prisma from "@/lib/prisma";
 import { ITEM_PER_PAGE } from "@/lib/settings";
+import { auth } from "@clerk/nextjs/server";
 import { Class, Prisma, Teacher } from "@prisma/client";
 import Image from "next/image";
 
@@ -16,7 +17,8 @@ const ClassListPage = async ({
   searchParams: { [key: string]: string | undefined };
 }) => {
 
-  const role = "admin";
+const { sessionClaims } = await auth();
+const role = (sessionClaims?.metadata as { role?: string })?.role;
 
 
 const columns = [
@@ -118,13 +120,13 @@ const renderRow = (item: ClassList) => (
         <div className="flex flex-col md:flex-row items-center gap-4 w-full md:w-auto">
           <TableSearch />
           <div className="flex items-center gap-4 self-end">
-            <button className="w-8 h-8 flex items-center justify-center rounded-full bg-yellow">
+            <button className="w-8 h-8 flex items-center justify-center rounded-full bg-lamaYellow">
               <Image src="/filter.png" alt="" width={14} height={14} />
             </button>
-            <button className="w-8 h-8 flex items-center justify-center rounded-full bg-yellow">
+            <button className="w-8 h-8 flex items-center justify-center rounded-full bg-lamaYellow">
               <Image src="/sort.png" alt="" width={14} height={14} />
             </button>
-            {/* {role === "admin" && <FormModal table="class" type="create" />} */}
+            {/* {role === "admin" && <FormContainer table="class" type="create" />} */}
           </div>
         </div>
       </div>

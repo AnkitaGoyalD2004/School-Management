@@ -1,5 +1,4 @@
 
-import FormModal from "@/components/FormModal";
 import Pagination from "@/components/Pagination";
 import Table from "@/components/Table";
 import TableSearch from "@/components/TableSearch";
@@ -8,6 +7,8 @@ import { ITEM_PER_PAGE } from "@/lib/settings";
 import { Prisma } from "@prisma/client";
 import Image from "next/image";
 
+import FormModal from "@/components/FormModal";
+import { auth } from "@clerk/nextjs/server";
 
 type ResultList = {
   id: number;
@@ -28,7 +29,9 @@ const ResultListPage = async ({
   searchParams: { [key: string]: string | undefined };
 }) => {
 
-const role = "admin";
+const { userId, sessionClaims } = await auth();
+const role = (sessionClaims?.metadata as { role?: string })?.role;
+const currentUserId = userId;
 
 
 const columns = [
@@ -89,7 +92,7 @@ const renderRow = (item: ResultList) => (
       <div className="flex items-center gap-2">
         {(role === "admin" || role === "teacher") && (
           <>
-            <FormModal   table="result" type="update" data={item}/>
+            <FormModal table="result" type="update" data={item}/>
             <FormModal table="result" type="delete" id={item.id}/>
           </>
         )}
@@ -124,6 +127,31 @@ const renderRow = (item: ResultList) => (
         }
       }
     }
+  }
+
+  // ROLE CONDITIONS
+
+  switch (role) {
+    case "admin":
+      break;
+    case "teacher":
+      query.OR = [
+        { exam: { lesson: { teacherId: currentUserId! } } },
+        { assignment: { lesson: { teacherId: currentUserId! } } },
+      ];
+      break;
+
+    case "student":
+      query.studentId = currentUserId!;
+      break;
+
+    case "parent":
+      query.student = {
+        parentId: currentUserId!,
+      };
+      break;
+    default:
+      break;
   }
 
   const [dataRes, count] = await prisma.$transaction([
@@ -186,13 +214,13 @@ const renderRow = (item: ResultList) => (
         <div className="flex flex-col md:flex-row items-center gap-4 w-full md:w-auto">
           <TableSearch />
           <div className="flex items-center gap-4 self-end">
-            <button className="w-8 h-8 flex items-center justify-center rounded-full bg-yellow">
+            <button className="w-8 h-8 flex items-center justify-center rounded-full bg-lamaYellow">
               <Image src="/filter.png" alt="" width={14} height={14} />
             </button>
-            <button className="w-8 h-8 flex items-center justify-center rounded-full bg-yellow">
+            <button className="w-8 h-8 flex items-center justify-center rounded-full bg-lamaYellow">
               <Image src="/sort.png" alt="" width={14} height={14} />
             </button>
-            {/* {role === "admin" || role === "teacher" && <FormModal table="result" type="create" />} */}
+            
           </div>
         </div>
       </div>

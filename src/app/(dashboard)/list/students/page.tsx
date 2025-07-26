@@ -1,4 +1,3 @@
-// import FormContainer from "@/components/FormContainer";
 import Pagination from "@/components/Pagination";
 import Table from "@/components/Table";
 import TableSearch from "@/components/TableSearch";
@@ -9,8 +8,7 @@ import { Class, Prisma, Student } from "@prisma/client";
 import Image from "next/image";
 import Link from "next/link";
 
-import FormModal from "@/components/FormModal";
-// import { auth } from "@clerk/nextjs/server";
+import { auth } from "@clerk/nextjs/server";
 
 type StudentList = Student & { class: Class };
 
@@ -19,9 +17,9 @@ const StudentListPage = async ({
 }: {
   searchParams: { [key: string]: string | undefined };
 }) => {
-  // const { sessionClaims } = auth();
-  // const role = (sessionClaims?.metadata as { role?: string })?.role;
-  const role = "admin";
+  const { sessionClaims } = await auth();
+  const role = (sessionClaims?.metadata as { role?: string })?.role;
+
   const columns = [
     {
       header: "Info",
@@ -87,11 +85,9 @@ const StudentListPage = async ({
             </button>
           </Link>
           {role === "admin" && (
-            // <button className="w-7 h-7 flex items-center justify-center rounded-full bg-lamaPurple">
-            //   <Image src="/delete.png" alt="" width={16} height={16} />
-            // </button>
-            // <FormContainer table="student" type="delete" id={item.id} />
-            <FormModal table="student" type="delete" id={(item.id)}/>
+            <button className="w-7 h-7 flex items-center justify-center rounded-full bg-lamaPurple">
+              <Image src="/delete.png" alt="" width={16} height={16} />
+            </button>
           )}
         </div>
       </td>
@@ -156,11 +152,9 @@ const StudentListPage = async ({
               <Image src="/sort.png" alt="" width={14} height={14} />
             </button>
             {role === "admin" && (
-              // <button className="w-8 h-8 flex items-center justify-center rounded-full bg-lamaYellow">
-              //   <Image src="/plus.png" alt="" width={14} height={14} />
-              // </button>
-              // <FormContainer table="student" type="create" />
-              <FormModal table="student" type="create" />
+              <button className="w-8 h-8 flex items-center justify-center rounded-full bg-lamaYellow">
+                <Image src="/plus.png" alt="" width={14} height={14} />
+              </button> 
             )}
           </div>
         </div>

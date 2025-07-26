@@ -1,11 +1,10 @@
-// import FormContainer from "@/components/FormContainer";
-import FormModal from "@/components/FormModal";
+
 import Pagination from "@/components/Pagination";
 import Table from "@/components/Table";
 import TableSearch from "@/components/TableSearch";
 import prisma from "@/lib/prisma";
 import { ITEM_PER_PAGE } from "@/lib/settings";
-// import { auth } from "@clerk/nextjs/server";
+import { auth } from "@clerk/nextjs/server";
 import { Class, Prisma, Subject, Teacher } from "@prisma/client";
 import Image from "next/image";
 import Link from "next/link";
@@ -17,9 +16,8 @@ const TeacherListPage = async ({
 }: {
   searchParams: { [key: string]: string | undefined };
 }) => {
-  // const { sessionClaims } = auth();
-  // const role = (sessionClaims?.metadata as { role?: string })?.role;
-  const role = "admin";
+  const { sessionClaims } = await auth();
+  const role = (sessionClaims?.metadata as { role?: string })?.role;
   const columns = [
     {
       header: "Info",
@@ -95,11 +93,10 @@ const TeacherListPage = async ({
             </button>
           </Link>
           {role === "admin" && (
-            // <button className="w-7 h-7 flex items-center justify-center rounded-full bg-lamaPurple">
-            //   <Image src="/delete.png" alt="" width={16} height={16} />
-            // </button>
-            // <FormContainer table="teacher" type="delete" id={item.id} />
-            <FormModal table="teacher" type="delete" id={Number(item.id)}/>
+            <button className="w-7 h-7 flex items-center justify-center rounded-full bg-lamaPurple">
+              <Image src="/delete.png" alt="" width={16} height={16} />
+            </button>
+           
           )}
         </div>
       </td>
@@ -161,10 +158,6 @@ const TeacherListPage = async ({
             <button className="w-8 h-8 flex items-center justify-center rounded-full bg-lamaYellow">
               <Image src="/sort.png" alt="" width={14} height={14} />
             </button>
-            {role === "admin" && (
-              // <FormContainer table="teacher" type="create" />
-              <FormModal table="teacher" type="create" />
-            )}
           </div>
         </div>
       </div>
