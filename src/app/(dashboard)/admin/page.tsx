@@ -1,7 +1,7 @@
 import Announcements from "@/components/Announcements";
 import AttendanceChartContainer from "@/components/AttendanceChartContainer";
 import CountChartContainer from "@/components/CountChartContainer";
-import EventCalender from "@/components/EventCalender";
+import EventCalendarContainer from "@/components/EventCalendarContainer";
 import FinanceChart from "@/components/FinanceChart";
 import UserCard from "@/components/UserCard";
 
@@ -24,7 +24,7 @@ const AdminPage = () => {
              <CountChartContainer/>
         </div>
 
-        {/* Attendance chart */}
+        {/* Attendance chart */}  
         <div className="w-full lg:w-2/3 h-[450px]">
              <AttendanceChartContainer/>
         </div>
@@ -38,7 +38,7 @@ const AdminPage = () => {
     </div>
     {/* Right */}
     <div className="w-full lg:w-1/3 flex flex-col gap-8">
-      <EventCalender/>
+      <EventCalendarContainer searchParams={{}} />
       <Announcements/>
     </div>
   </div>;
