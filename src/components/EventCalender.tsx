@@ -20,7 +20,7 @@ const EventCalendar = () => {
     }
   }, [value, router]);
 
-  return <Calendar onChange={onChange} value={value} />;
+  return <Calendar />;
 };
 
 export default EventCalendar;
