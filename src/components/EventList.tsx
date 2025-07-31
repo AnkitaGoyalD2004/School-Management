@@ -2,15 +2,30 @@ import prisma from "@/lib/prisma";
 
 const EventList = async ({ dateParam }: { dateParam: string | undefined }) => {
   const date = dateParam ? new Date(dateParam) : new Date();
+  
+  // Create start and end of the selected date
+  const startOfDay = new Date(date);
+  startOfDay.setHours(0, 0, 0, 0);
+  
+  const endOfDay = new Date(date);
+  endOfDay.setHours(23, 59, 59, 999);
 
   const data = await prisma.event.findMany({
     where: {
       startTime: {
-        gte: new Date(date.setHours(0, 0, 0, 0)),
-        lte: new Date(date.setHours(23, 59, 59, 999)),
+        gte: startOfDay,
+        lte: endOfDay,
       },
     },
   });
+
+  if (data.length === 0) {
+    return (
+      <div className="p-5 rounded-md border-2 border-gray-100">
+        <p className="text-gray-400 text-center">No events for this date</p>
+      </div>
+    );
+  }
 
   return data.map((event) => (
     <div

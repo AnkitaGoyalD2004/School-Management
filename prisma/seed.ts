@@ -176,13 +176,16 @@ async function main() {
   }
 
   // EVENT
-  for (let i = 1; i <= 5; i++) {
+  for (let i = 1; i <= 10; i++) {
+    const eventDate = new Date();
+    eventDate.setDate(eventDate.getDate() + (i - 1)); // Spread events across different days
+    
     await prisma.event.create({
       data: {
         title: `Event ${i}`, 
         description: `Description for Event ${i}`, 
-        startTime: new Date(new Date().setHours(new Date().getHours() + 1)), 
-        endTime: new Date(new Date().setHours(new Date().getHours() + 2)), 
+        startTime: new Date(eventDate.setHours(9 + (i % 8), 0, 0, 0)), // Events at different times
+        endTime: new Date(eventDate.setHours(10 + (i % 8), 0, 0, 0)), 
         classId: (i % 5) + 1, 
       },
     });
