@@ -1,11 +1,11 @@
 import Image from "next/image";
-import EventCalendar from "./EventCalender";
+import EventCalendar from "./EventCalendar";
 import EventList from "./EventList";
 
 const EventCalendarContainer = async ({
   searchParams,
 }: {
-  searchParams: { [keys: string]: string | undefined }; 
+  searchParams: { [keys: string]: string | undefined };
 }) => {
   const { date } = searchParams;
   return (
@@ -17,7 +17,6 @@ const EventCalendarContainer = async ({
       </div>
       <div className="flex flex-col gap-4">
         <EventList dateParam={date} />
-
       </div>
     </div>
   );
