@@ -52,7 +52,7 @@ const Announcements = async () => {
             </div>
             <p className="text-sm text-gray-400 mt-1">{data[1].description}</p>
           </div>
-        )}
+        )} 
         {data[2] && (
           <div className="bg-lamaYellowLight rounded-md p-4">
             <div className="flex items-center justify-between">
@@ -70,3 +70,8 @@ const Announcements = async () => {
 };
 
 export default Announcements;
+
+
+
+
+

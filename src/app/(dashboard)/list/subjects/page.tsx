@@ -1,4 +1,3 @@
-
 import FormModal from "@/components/FormModal";
 import Pagination from "@/components/Pagination";
 import Table from "@/components/Table";
@@ -14,7 +13,7 @@ type SubjectList = Subject & { teachers: Teacher[] };
 const SubjectListPage = async ({
   searchParams,
 }: {
-  searchParams: { [key: string]: string | undefined };
+  searchParams: Promise<{ [key: string]: string | undefined }>;
 }) => {
   const { sessionClaims } = await auth();
   const role = (sessionClaims?.metadata as { role?: string })?.role;
@@ -38,7 +37,7 @@ const SubjectListPage = async ({
   const renderRow = (item: SubjectList) => (
     <tr
       key={item.id}
-      className="border-b border-gray-200 even:bg-slate-50 text-sm hover:bg-lamaPurpleLight"
+      className="border-b border-gray-200 even:bg-slate-50 text-sm hover:bg-purpleLight"
     >
       <td className="flex items-center gap-4 p-4">{item.name}</td>
       <td className="hidden md:table-cell">
@@ -48,8 +47,8 @@ const SubjectListPage = async ({
         <div className="flex items-center gap-2">
           {role === "admin" && (
             <>
-             <FormModal table="subject" type="update" data={item}/>
-             <FormModal table="subject" type="delete" id={item.id}/>
+               <FormModal table="subject" type="update" data={item}/>
+               <FormModal table="subject" type="delete" id={item.id}/>
             </>
           )}
         </div>
@@ -57,7 +56,8 @@ const SubjectListPage = async ({
     </tr>
   );
 
-  const { page, ...queryParams } = searchParams;
+  const resolvedSearchParams = await searchParams;
+  const { page, ...queryParams } = resolvedSearchParams;
 
   const p = page ? parseInt(page) : 1;
 
@@ -99,12 +99,15 @@ const SubjectListPage = async ({
         <div className="flex flex-col md:flex-row items-center gap-4 w-full md:w-auto">
           <TableSearch />
           <div className="flex items-center gap-4 self-end">
-            <button className="w-8 h-8 flex items-center justify-center rounded-full bg-lamaYellow">
+            <button className="w-8 h-8 flex items-center justify-center rounded-full bg-yellow">
               <Image src="/filter.png" alt="" width={14} height={14} />
             </button>
-            <button className="w-8 h-8 flex items-center justify-center rounded-full bg-lamaYellow">
+            <button className="w-8 h-8 flex items-center justify-center rounded-full bg-yellow">
               <Image src="/sort.png" alt="" width={14} height={14} />
             </button>
+            {role === "admin" && (
+              <FormModal table="subject" type="create" />
+            )}
           </div>
         </div>
       </div>
