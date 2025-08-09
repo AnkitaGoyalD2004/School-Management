@@ -11,7 +11,7 @@ import Image from "next/image";
 type SubjectList = Subject & { teachers: Teacher[] };
 
 const SubjectListPage = async ({
-  searchParams,
+  searchParams, 
 }: {
   searchParams: Promise<{ [key: string]: string | undefined }>;
 }) => {
