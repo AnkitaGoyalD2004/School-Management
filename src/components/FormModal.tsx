@@ -7,7 +7,7 @@ import { useState } from "react";
 // USE LAZY LOADING
 
 const TeacherForm = dynamic(() => import("./forms/TeacherForm"), {
-  loading: () => <h1>Loading...</h1>,
+    loading: () => <h1>Loading...</h1>,
 });
   const StudentForm = dynamic(() => import("./forms/StudentForm"), {
     loading: () => <h1>Loading...</h1>,
@@ -15,7 +15,7 @@ const TeacherForm = dynamic(() => import("./forms/TeacherForm"), {
   const SubjectForm = dynamic(() => import("./forms/SubjectForm"), {
     loading: () => <h1>Loading...</h1>,
   });
-
+  
 const forms: {  
   [key: string]: (type: "create" | "update", data?: any) => JSX.Element;
 } = {
