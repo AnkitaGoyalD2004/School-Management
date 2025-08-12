@@ -21,7 +21,7 @@ const forms: {
 } = {
   teacher: ( setOpen ,type, data) => <TeacherForm type={type} data={data}  />,
   student: ( setOpen ,type, data) => <StudentForm type={type} data={data}  />,
-  subject: ( setOpen ,type, data) => <SubjectForm type={type} data={data}  />,
+  subject: ( setOpen ,type, data) => <SubjectForm type={type} data={data} setOpen={setOpen} />,
 }; 
 
 const FormModal = ({

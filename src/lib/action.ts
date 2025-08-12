@@ -20,3 +20,24 @@ export const createSubject = async ( currentState: CurrentState,  data: SubjectS
  }
 };
 
+
+export const updateSubject = async (currentState: CurrentState, data: SubjectSchema) => {
+  try {
+    await prisma.subject.update({
+      where: {
+        id: data.id,
+      },
+      data: {
+        name: data.name,
+      },
+    });
+
+    // This will force the subjects page to get the latest data
+    // revalidatePath("/subjects");
+
+    return { success: true, error: false };
+  } catch (err) {
+    console.error(err);
+    return { success: false, error: true };
+  }
+};

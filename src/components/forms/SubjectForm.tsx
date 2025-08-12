@@ -1,23 +1,24 @@
 "use client";
 
-import { createSubject } from "@/lib/action";
+import { createSubject, updateSubject } from "@/lib/action";
 import { SubjectSchema, subjectSchema } from "@/lib/formValidationSchemas";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
-import { startTransition, useActionState, useEffect } from "react";
+import { Dispatch, SetStateAction, startTransition, useActionState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 import InputField from "../InputField";
 
 
-const SubjectForm = ({
+const SubjectForm = ({  
+  setOpen,
   type,
-  data,
-  setOpen
+  data 
+  
 }: {
   type: "create" | "update";
   data?: any;
-  setOpen: (open: boolean) => void;
+  setOpen: Dispatch<SetStateAction<boolean>>;
 }) => {
   const {
     register,
@@ -27,7 +28,13 @@ const SubjectForm = ({
     resolver: zodResolver(subjectSchema),
   });
 
-const [state , formAction] = useActionState(createSubject , {success: false , error:false});
+  const [state, formAction] = useActionState(
+    type === "create" ? createSubject : updateSubject,
+    {
+      success: false,
+      error: false,
+    }
+  );
 
   const onSubmit = handleSubmit((data) => {
     console.log(data);
@@ -41,6 +48,8 @@ const [state , formAction] = useActionState(createSubject , {success: false , er
   useEffect(() => {
     if (state.success) {
       toast(`${type === "create" ? "created" : " updated"}!`);
+      setOpen(false);
+      router.refresh();
     }
   }, [state]);
 
@@ -50,6 +59,13 @@ const [state , formAction] = useActionState(createSubject , {success: false , er
       <span className="text-xs text-gray-400 font-medium">
       </span>
       <div className="flex justify-between flex-wrap gap-4">
+        {type === "update" && (
+          <input
+            type="hidden"
+            {...register("id")}
+            defaultValue={data?.id}
+          />
+        )}
         <InputField
           label="Subject Name"
           name="name"
@@ -57,8 +73,7 @@ const [state , formAction] = useActionState(createSubject , {success: false , er
           register={register}
           error={errors?.name}
         />
-            {state.error && <p className="text-red-500">Something went wrong</p>}
-            {state.success && <p className="text-green-500">Subject created successfully</p>}
+            {state.error && <span className="text-red-500">Something went wrong</span>}
       </div>
       <button className="bg-blue-400 text-white p-2 rounded-md">
         {type === "create" ? "Create" : "Update"}
@@ -68,3 +83,4 @@ const [state , formAction] = useActionState(createSubject , {success: false , er
 };
 
 export default SubjectForm;
+
