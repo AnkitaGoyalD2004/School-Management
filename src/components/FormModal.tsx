@@ -1,8 +1,25 @@
 "use client";
 
+import { deleteSubject } from "@/lib/action";
 import dynamic from "next/dynamic";
 import Image from "next/image";
-import { Dispatch, SetStateAction, useState } from "react";
+import { useRouter } from "next/navigation";
+import { Dispatch, SetStateAction, useActionState, useEffect, useState } from "react";
+import { toast } from "react-toastify";
+
+const deleteActionMap  ={
+  subject: deleteSubject,
+  teacher: deleteSubject,
+  student: deleteSubject,
+  parent: deleteSubject,
+  class: deleteSubject, 
+  exam: deleteSubject,
+  assignment: deleteSubject,
+  result: deleteSubject,
+  event: deleteSubject,
+  announcement: deleteSubject,
+  attendance: deleteSubject,
+}
 
 // USE LAZY LOADING
 
@@ -58,8 +75,28 @@ const FormModal = ({
   const [open, setOpen] = useState(false);
 
   const Form = () => {
+    const [state, formAction] = useActionState(
+      deleteActionMap[table as keyof typeof deleteActionMap],
+      {
+        success: false,
+        error: false,
+      }
+    );
+
+    const router = useRouter()
+
+    useEffect(() => {
+      if (state.success) {
+        toast(`Subject has been deleted!`);
+        setOpen(false);
+         router.refresh();
+      }
+    }, [state]);
+
+
     return type === "delete" && id ? (
-      <form action="" className="p-4 flex flex-col gap-4">
+      <form action={formAction} className="p-4 flex flex-col gap-4">
+        <input type="text | number" name="id" value={id} hidden/>
         <span className="text-center font-medium">
           All data will be lost. Are you sure you want to delete this {table}?
         </span>

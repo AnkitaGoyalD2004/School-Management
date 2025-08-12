@@ -10,11 +10,10 @@ import { toast } from "react-toastify";
 import InputField from "../InputField";
 
 
-const SubjectForm = ({  
+const SubjectForm = ({
   setOpen,
   type,
-  data 
-  
+  data
 }: {
   type: "create" | "update";
   data?: any;

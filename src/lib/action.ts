@@ -41,3 +41,19 @@ export const updateSubject = async (currentState: CurrentState, data: SubjectSch
     return { success: false, error: true };
   }
 };
+
+export const deleteSubject = async ( currentState: CurrentState,  data: FormData) => {
+  const id = data.get("id") as string;
+  try{
+   await prisma.subject.delete({
+    where: {
+      id: parseInt(id),
+    }
+   });
+   return {success: true , error:false};
+   // revalidatePath("/subjects");
+  }catch(err){
+   console.log(err);
+   return {success: false , error:true};
+  }
+ };
