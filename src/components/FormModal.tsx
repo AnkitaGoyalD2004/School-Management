@@ -83,7 +83,7 @@ const FormModal = ({
 
     return type === "delete" && id ? (
       <form action={formAction} className="p-4 flex flex-col gap-4">
-        <input type="text | number" name="id" value={id} hidden/>
+        <input type="text | number" name="id" defaultValue={id} hidden/>
         <span className="text-center font-medium">
           All data will be lost. Are you sure you want to delete this {table}?
         </span>
