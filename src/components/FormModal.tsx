@@ -6,13 +6,14 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { Dispatch, SetStateAction, useActionState, useEffect, useState } from "react";
 import { toast } from "react-toastify";
+import { FormContainerProps } from "./FormContainer";
 
 const deleteActionMap  ={
   subject: deleteSubject,
   teacher: deleteSubject,
   student: deleteSubject,
   parent: deleteSubject,
-  class: deleteSubject, 
+  class: deleteSubject,
   exam: deleteSubject,
   assignment: deleteSubject,
   result: deleteSubject,
@@ -34,11 +35,11 @@ const TeacherForm = dynamic(() => import("./forms/TeacherForm"), {
   });
 
 const forms: {  
-  [key: string]: ( setOpen : Dispatch<SetStateAction<boolean>>, type: "create" | "update", data?: any) => JSX.Element;
+  [key: string]: ( setOpen : Dispatch<SetStateAction<boolean>>, type: "create" | "update", data?: any, relatedData?: any  ) => JSX.Element;
 } = {
-  teacher: ( setOpen ,type, data) => <TeacherForm type={type} data={data}  />,
-  student: ( setOpen ,type, data) => <StudentForm type={type} data={data}  />,
-  subject: ( setOpen ,type, data) => <SubjectForm type={type} data={data} setOpen={setOpen} />,
+  teacher: ( setOpen ,type, data, relatedData) => <TeacherForm type={type} data={data} setOpen={setOpen} relatedData ={relatedData} />,
+  student: ( setOpen ,type, data, relatedData) => <StudentForm type={type} data={data} setOpen={setOpen} relatedData = {relatedData} />,
+  subject: ( setOpen ,type, data, relatedData) => <SubjectForm type={type} data={data} setOpen={setOpen} relatedData={relatedData} />,
 }; 
 
 const FormModal = ({
@@ -46,25 +47,11 @@ const FormModal = ({
   type,
   data,
   id,
-}: {
-  table:
-    | "teacher"
-    | "student"
-    | "parent"
-    | "subject"
-    | "class"
-    | "lesson"
-    | "exam"
-    | "assignment"
-    | "result"
-    | "attendance"
-    | "event"
-    | "announcement";
-  type: "create" | "update" | "delete";
-  data?: any;
-  id?: number | string;
-}) => {
+  relatedData,
+}: FormContainerProps & {relatedData?: any}) => {
+
   const size = type === "create" ? "w-8 h-8" : "w-7 h-7";
+
   const bgColor =
     type === "create"
       ? "bg-yellow"
@@ -105,7 +92,7 @@ const FormModal = ({
         </button>
       </form>
     ) : type === "create" || type === "update" ? (
-      forms[table](setOpen, type, data)
+      forms[table](setOpen, type, data, relatedData)
     ) : (
       "Form not found!"
     );
